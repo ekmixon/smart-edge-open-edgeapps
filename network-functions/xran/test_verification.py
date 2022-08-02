@@ -103,42 +103,41 @@ def get_re_map(nrb, direction):
     """method to get re map"""
     prb_map = []
     prb_elem_content = []
-    if direction == 0:
-        #DL
-        if 'nPrbElemDl' in globals():
-            n_prb_elm = 'nPrbElemDl'
-            for i in range(0, n_prb_elm):
-                elm = str('prb_elem_dl'+str(i))
-                #print(elm)
-                if elm in globals():
-                    prb_elem_content.insert(i, list(globals()[elm]))
-                    xrbstart = prb_elem_content[i][0]
-                    xrbsize = prb_elem_content[i][1]
-                    #print(PrbElemContent,"RBStart: ", xRBStart, "RBSize: ",xRBSize,
-                    #list(range(xRBStart, xRBStart + xRBSize)))
-                    prb_map = prb_map + list(range(xrbstart*12, xrbstart*12 + xrbsize*12))
-        else:
-            n_prb_elm = 0
+    if direction == 0 and 'nPrbElemDl' in globals():
+        n_prb_elm = 'nPrbElemDl'
+        for i in range(n_prb_elm):
+            elm = str(f'prb_elem_dl{str(i)}')
+            #print(elm)
+            if elm in globals():
+                prb_elem_content.insert(i, list(globals()[elm]))
+                xrbstart = prb_elem_content[i][0]
+                xrbsize = prb_elem_content[i][1]
+                #print(PrbElemContent,"RBStart: ", xRBStart, "RBSize: ",xRBSize,
+                #list(range(xRBStart, xRBStart + xRBSize)))
+                prb_map = prb_map + list(range(xrbstart*12, xrbstart*12 + xrbsize*12))
+    elif (
+        direction == 0
+        and 'nPrbElemDl' not in globals()
+        or direction != 0
+        and direction == 1
+        and 'nPrbElemUl' not in globals()
+    ):
+        n_prb_elm = 0
 
-    elif direction == 1:
-        #UL
-        if 'nPrbElemUl' in globals():
-            n_prb_elm = 'nPrbElemUl'
-            for i in range(0, n_prb_elm):
-                elm = str('prb_elem_ul'+str(i))
-                #print(elm)
-                if elm in globals():
-                    prb_elem_content.insert(i, list(globals()[elm]))
-                    xrbstart = prb_elem_content[i][0]
-                    xrbsize = prb_elem_content[i][1]
-                    #print(PrbElemContent,"RBStart: ", xRBStart, "RBSize: ",xRBSize,
-                    #list(range(xRBStart, xRBStart + xRBSize)))
-                    prb_map = prb_map + list(range(xrbstart*12, xrbstart*12 + xrbsize*12))
-        else:
-            n_prb_elm = 0
-
+    elif direction != 0 and direction == 1 and 'nPrbElemUl' in globals():
+        n_prb_elm = 'nPrbElemUl'
+        for i in range(n_prb_elm):
+            elm = str(f'prb_elem_ul{str(i)}')
+            #print(elm)
+            if elm in globals():
+                prb_elem_content.insert(i, list(globals()[elm]))
+                xrbstart = prb_elem_content[i][0]
+                xrbsize = prb_elem_content[i][1]
+                #print(PrbElemContent,"RBStart: ", xRBStart, "RBSize: ",xRBSize,
+                #list(range(xRBStart, xRBStart + xRBSize)))
+                prb_map = prb_map + list(range(xrbstart*12, xrbstart*12 + xrbsize*12))
     if n_prb_elm == 0:
-        prb_map = list(range(0, nrb*12))
+        prb_map = list(range(nrb*12))
 
     return prb_map
 
